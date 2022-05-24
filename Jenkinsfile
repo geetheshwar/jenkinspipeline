@@ -17,7 +17,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                                 echo "stage 1: using project: ${openshift.project()} in cluster ${openshift.cluster()}"
-                                oc create deployment newapp --image quay.io/mayank123modi/mayanknginximage 
+                                sh 'oc create deployment newapp --image quay.io/mayank123modi/mayanknginximage'
                         }
                     }
                 }
@@ -27,7 +27,7 @@ pipeline {
         stage('stage 2') {
             steps {
                 sh 'echo hello from stage 2!'
-                oc expose deployment newapp --port 80 --type ClusterIP
+                sh 'oc expose deployment newapp --port 80 --type ClusterIP'
             }
         }
 
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 timeout(time: 60, unit: 'MINUTES') {
                     input message: "Move to stage 3?"
-                    oc expose svc newapp
+                    sh 'oc expose svc newapp'
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline {
         stage('stage 3') {
             steps {
                 sh 'echo hello from stage 3!. This is the last stage...'
-                sh 'deployment, service, route were created. app is up!'
+                sh 'echo deployment, service, route were created. app is up!'
             }
         }
 

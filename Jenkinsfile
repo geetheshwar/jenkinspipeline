@@ -27,7 +27,7 @@ pipeline {
         stage('stage 2') {
             steps {
                 sh 'echo hello from stage 2!'
-                oc expose deployment newapp --port 80 --type=ClusterIP
+                oc expose deployment newapp --port 80 --type ClusterIP
             }
         }
 

@@ -17,7 +17,6 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                                 echo "stage 1: using project: ${openshift.project()} in cluster ${openshift.cluster()}"
-                                sh 'oc create deployment newapp --image quay.io/mayank123modi/mayanknginximage'
                         }
                     }
                 }
@@ -27,6 +26,7 @@ pipeline {
         stage('stage 2') {
             steps {
                 sh 'echo hello from stage 2!'
+                sh 'oc create deployment newapp --image quay.io/mayank123modi/mayanknginximage'
                 sh 'oc expose deployment newapp --port 80 --type ClusterIP'
             }
         }
